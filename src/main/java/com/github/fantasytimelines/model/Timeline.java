@@ -2,6 +2,8 @@ package com.github.fantasytimelines.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
+import lombok.experimental.Delegate;
 
 import javax.persistence.*;
 import java.util.ArrayList;

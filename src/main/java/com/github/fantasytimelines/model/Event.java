@@ -1,7 +1,9 @@
 package com.github.fantasytimelines.model;
 
+import com.vaadin.flow.component.charts.model.DataSeries;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 

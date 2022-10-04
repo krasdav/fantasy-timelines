@@ -5,6 +5,7 @@ import com.github.fantasytimelines.model.Timeline;
 import com.github.fantasytimelines.repository.EventRepository;
 import com.github.fantasytimelines.repository.TimelineRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
