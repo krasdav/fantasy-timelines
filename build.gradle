@@ -17,6 +17,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url = "https://maven.vaadin.com/vaadin-addons" }
 }
 
 ext {
@@ -27,10 +28,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'com.vaadin:vaadin-charts-flow:23.2.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.210'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.h2database:h2'
 }
 
 dependencyManagement {
