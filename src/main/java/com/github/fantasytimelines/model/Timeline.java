@@ -1,9 +1,8 @@
 package com.github.fantasytimelines.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
-import lombok.experimental.Delegate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
 public class Timeline {
 
     @Id
@@ -33,9 +32,7 @@ public class Timeline {
     }
 
     public void addEvent(Event... events){
-        for(Event event : events){
-            this.events.add(event.getPosInTimeline()-1,event);
-        }
+        this.events.addAll(List.of(events));
     }
 
 }
