@@ -5,6 +5,7 @@ import com.vaadin.flow.component.charts.model.DataSeries;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.List;
 public class Event{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     @Column(length=1000)
@@ -26,6 +27,11 @@ public class Event{
     @ManyToOne
     @JoinColumn(name="timeline_id",nullable = true)
     private Timeline timeline;
+
+    @OneToMany(mappedBy = "event",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private final List<EventAttribute> attributes = new ArrayList<>();
 
     public Event(String name, String description, String label,  Timeline timeline, String pointInTime, EventType eventType) {
         this.name = name;
@@ -43,5 +49,9 @@ public class Event{
         this.pointInTime = event.pointInTime;
         this.label = event.label;
         this.eventType = event.eventType;
+    }
+
+    public void addAttribute(EventAttribute... attributes){
+        this.attributes.addAll(List.of(attributes));
     }
 }

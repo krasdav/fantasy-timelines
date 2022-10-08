@@ -14,7 +14,7 @@ import java.util.List;
 public class Timeline {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private String world;
@@ -23,16 +23,30 @@ public class Timeline {
     @OneToMany(mappedBy = "timeline",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private List<Event> events = new ArrayList<>();
+    private final List<Event> events = new ArrayList<>();
 
-    public Timeline(String name, String world, String description) {
+    @OneToMany(mappedBy = "timeline",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private final List<TimelineAttribute> attributes = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name="user_id",nullable = true)
+    private User user;
+
+    public Timeline(String name, String world, String description, User user) {
         this.name = name;
         this.world = world;
         this.description = description;
+        this.user = user;
     }
 
     public void addEvent(Event... events){
         this.events.addAll(List.of(events));
+    }
+
+    public void addAttribute(TimelineAttribute... attributes){
+        this.attributes.addAll(List.of(attributes));
     }
 
 }

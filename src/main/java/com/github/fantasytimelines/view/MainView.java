@@ -3,58 +3,31 @@ package com.github.fantasytimelines.view;
 import com.github.fantasytimelines.model.Event;
 import com.github.fantasytimelines.model.Timeline;
 import com.github.fantasytimelines.model.enums.EventType;
-import com.github.fantasytimelines.repository.EventRepository;
-import com.github.fantasytimelines.repository.TimelineRepository;
+import com.github.fantasytimelines.service.TestService;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route(value = "main")
+@Route(value = "")
 public class MainView extends VerticalLayout {
 
-    public MainView(@Autowired TimelineRepository timelineRepository,
-                    @Autowired EventRepository eventRepository) {
+    private final TestService service;
 
-
-        H1 heading = new H1("Events");
-        List<Timeline> timelines = timelineRepository.findAll();
-
-        Tab witcher2 = new Tab("Witcher World");
-        Tab witcher1 = new Tab("World of Witcher");
-
-        witcher1.getElement().addEventListener("click", event -> {
-            for(Timeline timeline : timelines){
-                if(timeline.getName().equals("World of Witcher")){
-                    Chart chart = createChart(timeline);
-                    add(chart);
-                }
-            }
-        });
-
-        witcher2.getElement().addEventListener("click", event -> {
-            for(Timeline timeline : timelines){
-                if(timeline.getName().equals("Witcher World")){
-                    Chart chart = createChart(timeline);
-                    add(chart);
-                }
-            }
-        });
-
-
-        Tabs tabs = new Tabs(witcher1, witcher2);
-        tabs.setOrientation(Tabs.Orientation.VERTICAL);
-        tabs.setHeight("240px");
-        tabs.setWidth("240px");
-
-        Chart chart = createChart(timelines.get(0));
-        add(chart,tabs);
+    public MainView(@Autowired TestService service) {
+        this.service = service;
+        VerticalLayout verticalLayout = new VerticalLayout();
+        Chart chart = createChart(service.findBestTimeline());
+        Button button = new Button("TestView");
+        button.addClickListener(event -> UI.getCurrent().navigate("test-view"));
+        verticalLayout.add(chart,button);
+        add(verticalLayout);
     }
 
     public Chart createChart(Timeline timeline){
@@ -89,6 +62,44 @@ public class MainView extends VerticalLayout {
         configuration.addSeries(rangeSeries);
         return chart;
     }
+
+    /*
+    *
+        List<Timeline> timelines = timelineRepository.findAll();
+
+        Tab witcher2 = new Tab("Witcher World");
+        Tab witcher1 = new Tab("World of Witcher");
+
+        witcher1.setSelected(true);
+
+        Tabs tabs = new Tabs(witcher1, witcher2);
+        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
+        tabs.setHeight("240px");
+        tabs.setWidth("240px");
+
+        Div page1 = new Div();
+        page1.add(createChart(timelines.get(0)));
+
+        Div page2 = new Div();
+        page2.add(createChart(timelines.get(1)));
+
+        Div pages = new Div(page1);
+
+        tabs.addSelectedChangeListener( event ->  {
+                    String label = event.getSelectedTab().getLabel();
+                    for(Timeline timeline : timelines){
+                        if(timeline.getName().equals(label)){
+                            pages.removeAll();
+                            pages.add(createChart(timeline));
+                        }
+                    }
+                }
+        );
+
+        add(pages,tabs);
+    *
+    *
+    * */
 
 
 }

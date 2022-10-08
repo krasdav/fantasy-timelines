@@ -2,9 +2,11 @@ package com.github.fantasytimelines;
 
 import com.github.fantasytimelines.model.Event;
 import com.github.fantasytimelines.model.Timeline;
+import com.github.fantasytimelines.model.User;
 import com.github.fantasytimelines.model.enums.EventType;
 import com.github.fantasytimelines.repository.EventRepository;
 import com.github.fantasytimelines.repository.TimelineRepository;
+import com.github.fantasytimelines.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 public class FantasyTimelinesApplication {
 
 	private final TimelineRepository timelineRepository;
+	private final UserRepository userRepository;
 	private final EventRepository eventRepository;
 
 	public static void main(String[] args) {
@@ -25,7 +28,9 @@ public class FantasyTimelinesApplication {
 	@Bean
 	public CommandLineRunner loadData() {
 		return (args) -> {
-			Timeline timeline1 = new Timeline("New", "World of Witcher", "Andrzej Sapkowski");
+			User user = new User("usr","pw");
+
+			Timeline timeline1 = new Timeline("New", "World of Witcher", "Andrzej Sapkowski",user);
 			Event event1 = new Event("Dwarves arrive", """
 					Dwarves arrive in the lands of Continent,
 					the gnomes already have small colonies in Mahakam and Tir Tochair""",
@@ -52,12 +57,10 @@ public class FantasyTimelinesApplication {
 
 			timeline1.addEvent(event1,event2,event4,event3,event5);
 
-			Timeline timeline2 = new Timeline("New", "Witcher world", "Andrzej Sapkowski");
+			Timeline timeline2 = new Timeline("New", "Witcher world", "Andrzej Sapkowski",user);
 			timeline2.addEvent(new Event(event1,timeline2),new Event(event5,timeline2));
-
-			timelineRepository.save(timeline1);
-			timelineRepository.save(timeline2);
-
+			user.addTimelines(timeline1,timeline2);
+			userRepository.save(user);
 		};
 	}
 
