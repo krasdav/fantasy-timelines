@@ -24,9 +24,9 @@ public class MainView extends VerticalLayout {
         this.service = service;
         VerticalLayout verticalLayout = new VerticalLayout();
         Chart chart = createChart(service.findBestTimeline());
-        Button button = new Button("TestView");
-        button.addClickListener(event -> UI.getCurrent().navigate("test-view"));
-        verticalLayout.add(chart,button);
+        Button button = new Button("Timelines");
+        button.addClickListener(event -> UI.getCurrent().navigate("timelines"));
+        verticalLayout.add(button,chart);
         add(verticalLayout);
     }
 

@@ -8,6 +8,8 @@ import com.github.fantasytimelines.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TestService {
@@ -23,6 +25,10 @@ public class TestService {
         return timelineRepository.findAll().get(0);
     }
 
+
+    public List<Timeline> getAllTimelines(){
+        return timelineRepository.findAll();
+    }
 
     public User createUser(String name, String password){
         User user = new User(name,password);
